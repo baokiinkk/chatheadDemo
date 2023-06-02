@@ -138,7 +138,7 @@ class ChatHeadService : Service() {
             .setContentText("Running in background")
             .setSmallIcon(R.drawable.ic_chat_head_icon)
             .setContentIntent(pendingIntent)
-            .setAutoCancel(false)
+            .setAutoCancel(true)
             .setOngoing(true)
 
         return notificationBuilder.build()

@@ -20,6 +20,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        val intent = Intent(this, ChatHeadService::class.java)
+        stopService(intent)
+    }
     override fun onStop() {
         super.onStop()
         val intent = Intent(this, ChatHeadService::class.java)
