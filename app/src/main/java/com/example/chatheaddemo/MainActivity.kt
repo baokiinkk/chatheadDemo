@@ -3,19 +3,20 @@ package com.example.chatheaddemo
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if (Settings.canDrawOverlays(this)) {
-        } else {
-            // Quyền chưa được cấp, yêu cầu người dùng cấp quyền
-            val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:${this.packageName}"))
+        if (!Settings.canDrawOverlays(this)) {
+            val intent = Intent(
+                Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                Uri.parse("package:${this.packageName}")
+            )
             startActivityForResult(intent, 1000)
         }
     }
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, ChatHeadService::class.java)
         stopService(intent)
     }
+
     override fun onStop() {
         super.onStop()
         val intent = Intent(this, ChatHeadService::class.java)
