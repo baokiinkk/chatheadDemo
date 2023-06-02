@@ -101,13 +101,10 @@ class ChatHeadService : Service() {
             val notification = createNotification()
             startForeground(NOTIFICATION_ID, notification)
         }
-
-        // Trả về giá trị START_STICKY để dịch vụ được khởi động lại nếu bị hủy bởi hệ thống
         return START_STICKY
     }
 
     override fun onBind(intent: Intent?): IBinder? {
-        // Trả về null nếu dịch vụ không hỗ trợ giao tiếp liên quan đến cung cấp và ràng buộc
         return null
     }
 
@@ -122,8 +119,6 @@ class ChatHeadService : Service() {
         val notificationIntent = Intent(this, MainActivity::class.java)
         val pendingIntent =
             PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE)
-
-        // Tạo kênh thông báo trên Android 8.0 trở lên
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 NOTIFICATION_CHANNEL_ID,
@@ -162,7 +157,6 @@ class ChatHeadService : Service() {
         override fun onTouch(view: View, event: MotionEvent): Boolean {
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
-                    // Lưu vị trí ban đầu của cửa sổ chat head và vị trí chạm
                     initialX = layoutParams.x
                     initialY = layoutParams.y
                     initialTouchX = event.rawX
@@ -181,13 +175,10 @@ class ChatHeadService : Service() {
                         chatHeadView.tag = "false"
                     }catch (_:java.lang.Exception){}
 
-                    // Tính toán vị trí mới dựa trên vị trí chạm hiện tại và vị trí ban đầu
                     val deltaX = event.rawX - initialTouchX
                     val deltaY = event.rawY - initialTouchY
                     layoutParams.x = (initialX + deltaX).toInt()
                     layoutParams.y = (initialY + deltaY).toInt()
-
-                    // Cập nhật vị trí của cửa sổ chat head
                     windowManager.updateViewLayout(view, layoutParams)
                     return true
                 }
